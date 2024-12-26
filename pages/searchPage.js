@@ -16,8 +16,8 @@ const searchPage = () => {
   const { fetchNFTs, setError, currentAccount } = useContext(
     NFTMarketplaceContext
   );
-  const [nfts, setNfts] = useState([]);
-  const [nftsCopy, setNftsCopy] = useState([]);
+  const [nfts, setNfts] = useState("");
+  const [nftsCopy, setNftsCopy] = useState("");
 
   useEffect(() => {
     try {
@@ -34,15 +34,11 @@ const searchPage = () => {
   }, [currentAccount]);
 
   const onHandleSearch = (value) => {
+    if (!nfts || !nfts.length) return;
     const filteredNFTS = nfts.filter(({ name }) =>
-      name.toLowerCase().includes(value.toLowerCase())
+      name?.toLowerCase().includes(value.toLowerCase())
     );
-
-    if (filteredNFTS.length === 0) {
-      setNfts(nftsCopy);
-    } else {
-      setNfts(filteredNFTS);
-    }
+    setNfts(filteredNFTS.length ? filteredNFTS : nftsCopy);
   };
 
   const onClearSearch = () => {
